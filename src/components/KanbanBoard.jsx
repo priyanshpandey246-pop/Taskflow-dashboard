@@ -1,4 +1,4 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./Column";
 
@@ -6,6 +6,15 @@ const STATUSES =["todo", "inprogress", "review", "done"];
 
 export default function KanbanBoard({ tasks, setTasks, onDelete, onEdit, darkMode, sortBy})
 {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 5,
+      },
+    })
+  );
   const initOrders = (list) => {
     const  next = list.map((t) => ({...t}));
     STATUSES.forEach((status) => {
@@ -81,7 +90,10 @@ const normalizeOrders = (list, status) => {
   };
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    
+    <DndContext sensors={sensors}
+    collisionDetection={closestCenter} 
+    onDragEnd={handleDragEnd}>
       <div style={{
         display: "grid",
         flexDirection: "column",
