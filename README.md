@@ -31,4 +31,4 @@ A modern and responsive task management dashboard built using React (Vite), Zust
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/taskflow-dashboard.git
+git clone https://github.com/priyanshpandey246-pop/taskflow-dashboard.git
